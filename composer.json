@@ -1,0 +1,12 @@
+{
+  "name": "zaid/member-web-services",
+  "description": "",
+  "require": {
+    "guzzlehttp/guzzle": "^7.5"
+},
+  "autoload": {
+    "psr-4": {
+      "MemberWebServices\\" : "src/MemberWebServices"
+    }
+  }
+}

@@ -38,7 +38,7 @@ class Registration{
             "city" => "",
             "stateCode" => "",
             "zipCode" => $zipCode,
-            // "primaryPhone" => $primaryPhone,
+            "primaryPhone" => $primaryPhone,
             "primaryPhoneType" => "",
             "secondaryPhone" => "",
             "secondaryPhoneType" => "",

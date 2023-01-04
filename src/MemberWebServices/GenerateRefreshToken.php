@@ -34,6 +34,7 @@ class GenerateRefreshToken
     ];
     $this->callApiObj = new CallApi($this->REQUESTTYPE,$this->URLPARAMS,$this->headers,$this->options,$this->body);
     $this->response = $this->callApiObj->requestApi();
+    // print_r(json_decode($this->response->getBody()->getContents()));
 
     // foreach(json_decode($this->response->getBody()->getContents(),true) as $key => $val){
     //   if ($key != null && $key == "accessToken"){
@@ -44,8 +45,8 @@ class GenerateRefreshToken
     //   }
     // }
   }
-
   public function getResponse(){
+    // print_r(json_decode($this->response->getBody()->getContents()));
     return json_decode($this->response->getBody()->getContents());
   }
 }

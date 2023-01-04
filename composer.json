@@ -2,7 +2,7 @@
   "name": "zaid/member-web-services",
   "description": "A package to call PDI api interface",
   "require": {
-    "php": "8.0.18",
+    "php": "^8",
     "guzzlehttp/guzzle": "^7.5"
 },
   "autoload": {

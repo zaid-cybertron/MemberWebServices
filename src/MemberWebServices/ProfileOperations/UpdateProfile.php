@@ -17,7 +17,7 @@ class UpdateProfile
     private $programUdk;
     private $bodyParameters = [];
 
-    public function __construct($memberAccessToken,$memberAccountNumber,$bodyParameters)
+    public function __construct($memberAccessToken,$memberAccountNumber,$bodyParams)
     {
         $this->headers = [
             "content-type" => $this->CONTENTTYPE,
@@ -32,7 +32,7 @@ class UpdateProfile
             $this->bodyParameters,
         ];
 
-        $this->callApiObj = new CallApi($this->REQUESTTYPE,$this->URLPARAMS,$this->headers,$this->options,$this->body);
+        $this->callApiObj = new CallApi($this->REQUESTTYPE,$this->URLPARAMS,$this->headers,$this->options,$bodyParams);
         $this->response = $this->callApiObj->requestApi();
     }
     public function getResponse(){

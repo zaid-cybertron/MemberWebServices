@@ -3,6 +3,7 @@
 namespace MemberWebServices;
 use \MemberWebServices\CallApi;
 use \MemberWebServices\GenerateAccessToken;
+use \GuzzleHttp\Exception\ClientException as ClientException;
 
 class GenerateRefreshToken
 {
@@ -17,7 +18,8 @@ class GenerateRefreshToken
   private $options = [
     'form_params' => [
       'grant_type' => 'refresh_token',
-    ]];
+    ]
+  ];
   private $response;
   private $headers = [];
   
@@ -33,21 +35,18 @@ class GenerateRefreshToken
       "refresh_token" => $refreshToken,
     ];
     $this->callApiObj = new CallApi($this->REQUESTTYPE,$this->URLPARAMS,$this->headers,$this->options,$this->body);
-    $this->response = $this->callApiObj->requestApi();
-    // print_r(json_decode($this->response->getBody()->getContents()));
-
-    // foreach(json_decode($this->response->getBody()->getContents(),true) as $key => $val){
-    //   if ($key != null && $key == "accessToken"){
-    //     $generateToken->setAccessToken($val);
-    //   }
-    //   else if($key != null && $key == "refreshToken"){
-    //     $generateToken->setRefreshToken($val);
-    //   }
-    // }
+    try
+    {
+      $response = $this->callApiObj->requestApi();
+      $this->response = json_decode($response->getBody()->getContents());
+    }
+    catch (ClientException $e) {
+      $response = $e->getResponse();
+      $this->response = json_decode($response->getBody()->getContents());
+    }
   }
-  public function getResponse(){
-    // print_r(json_decode($this->response->getBody()->getContents()));
-    return json_decode($this->response->getBody()->getContents());
+  public function getResponseData(){  
+    return $this->response;
   }
 }
 

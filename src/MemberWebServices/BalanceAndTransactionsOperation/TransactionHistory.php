@@ -49,7 +49,7 @@ class TransactionHistory
             return $recentActivities;
         }
 
-        if (!isset($response->errors) && $response->transactionCount > 0)
+        if (!isset($response->errors))
         {
             foreach($response->transactions as $transaction)
             {

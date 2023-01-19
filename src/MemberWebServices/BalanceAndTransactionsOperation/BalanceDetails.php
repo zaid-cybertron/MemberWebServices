@@ -36,17 +36,15 @@ class BalanceDetails
         return json_decode($this->response->getBody()->getContents());
     }
 
-    public function getCPGAmount(){
+    public function getCpgAmount(){
         $response = json_decode($this->response->getBody()->getContents());
-        $balanceDetials = json_decode($response->balanceDetails);
+        $balanceDetials = $response->balanceDetails;
         $cpgAmount = 0;
         if (!empty($balanceDetails))
         {
             foreach ($balanceDetails as $balanceDetail){
                 if ($balanceDetail->rewardType == "CPG"){
-                    foreach($balanceDetails->participantRewards as $participantReward){
-                        $cpgAmount += $participantReward->rewardAmount;
-                    }
+                    $cpgAmount = $balanceDetail->rewardAmount;
                 }
             }
             return $cpgAmount;
@@ -56,15 +54,13 @@ class BalanceDetails
  
     public function getPointsAmount(){
         $response = json_decode($this->response->getBody()->getContents());
-        $balanceDetials = json_decode($response->balanceDetails);
+        $balanceDetails = $response->balanceDetails;
         $pointsAmount = 0;
         if (!empty($balanceDetails))
         {
             foreach ($balanceDetails as $balanceDetail){
-                if ($balanceDetail->rewardType == "CPG"){
-                    foreach($balanceDetails->participantRewards as $participantReward){
-                        $pointsAmount += $participantReward->rewardAmount;
-                    }
+                if ($balanceDetail->rewardType == "POINTS"){
+                    $pointsAmount = $balanceDetail->rewardAmount;
                 }
             }
             return $pointsAmount;

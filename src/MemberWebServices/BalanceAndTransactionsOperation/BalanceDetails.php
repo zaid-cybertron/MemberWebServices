@@ -38,7 +38,7 @@ class BalanceDetails
 
     public function getCpgAmount(){
         $response = json_decode($this->response->getBody()->getContents());
-        $balanceDetials = $response->balanceDetails;
+        $balanceDetails = $response->balanceDetails;
         $cpgAmount = 0;
         if (!empty($balanceDetails))
         {

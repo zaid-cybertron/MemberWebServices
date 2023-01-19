@@ -38,11 +38,10 @@ class BalanceDetails
 
     public function getCpgAmount(){
         $response = json_decode($this->response->getBody()->getContents());
-        $balanceDetails = $response->balanceDetails;
         $cpgAmount = 0;
-        if (!empty($balanceDetails))
+        if (!empty($response->balanceDetails))
         {
-            foreach ($balanceDetails as $balanceDetail){
+            foreach ($response->balanceDetails as $balanceDetail){
                 if ($balanceDetail->rewardType == "CPG"){
                     $cpgAmount = $balanceDetail->rewardAmount;
                 }
@@ -54,11 +53,10 @@ class BalanceDetails
  
     public function getPointsAmount(){
         $response = json_decode($this->response->getBody()->getContents());
-        $balanceDetails = $response->balanceDetails;
         $pointsAmount = 0;
-        if (!empty($balanceDetails))
+        if (!empty($response->balanceDetails))
         {
-            foreach ($balanceDetails as $balanceDetail){
+            foreach ($response->balanceDetails as $balanceDetail){
                 if ($balanceDetail->rewardType == "POINTS"){
                     $pointsAmount = $balanceDetail->rewardAmount;
                 }

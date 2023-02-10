@@ -17,7 +17,7 @@ class Registration{
     private $headers = [];
     private $programUdk;
     
-    public function __construct($apiAccessToken,$firstName, $lastName, $email, $primaryPhone, $zipCode, $password, $tcAction){
+    public function __construct($apiAccessToken,$firstName, $lastName, $brithDate, $email, $primaryPhone, $zipCode, $password, $tcAction){
 
         $this->headers = [
             "access_token" => $apiAccessToken,

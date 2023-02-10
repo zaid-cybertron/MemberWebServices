@@ -44,7 +44,7 @@ class Registration{
             "secondaryPhoneType" => "",
             "mobilePhone" => "",
             "homePhone" => "",
-            "birthDate" => "",
+            "birthDate" => $brithDate,
             "gender" => "",
             "tcAction" => $tcAction,
             "marcomOptIn" => "true",

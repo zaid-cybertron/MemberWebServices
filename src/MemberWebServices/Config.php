@@ -7,14 +7,14 @@ use Dotenv\Dotenv;
 class Config{
     
     
-    private $baseUrl = "https://staging-";
-    private $clientUserIdDev = "2b4084a2-8367-444a-a57b-86013b89a42c";
-    private $clientUserSecreteDev = "da23ec9a-b57f-4dfb-aaac-fb4a33255727";
+    private $baseUrl;
+    private $clientUserIdDev;
+    private $clientUserSecreteDev;
     private $clientUserIdProd;
     private $clientUserSceretProd;
-    private $participantId = "ONI15122";
-    private $programId = "ONI15122";
-    private $psid = "coenweb";
+    private $participantId;
+    private $programId;
+    private $psid;
 
     public function __construct(){
         $dotenv = Dotenv::createImmutable(__DIR__);

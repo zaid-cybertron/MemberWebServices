@@ -3,7 +3,8 @@
   "description": "A package to call PDI api interface",
   "require": {
     "php": "^8",
-    "guzzlehttp/guzzle": "^7.5"
+    "guzzlehttp/guzzle": "^7.5",
+    "vlucas/phpdotenv": "^5.5"
 },
   "autoload": {
     "psr-4": {

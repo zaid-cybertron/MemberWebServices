@@ -1,9 +1,12 @@
 <?php
 
 namespace MemberWebServices;
+use Dotenv\Dotenv;
+
 
 class Config{
-
+    
+    
     private $baseUrl = "https://staging-";
     private $clientUserIdDev = "2b4084a2-8367-444a-a57b-86013b89a42c";
     private $clientUserSecreteDev = "da23ec9a-b57f-4dfb-aaac-fb4a33255727";
@@ -12,6 +15,21 @@ class Config{
     private $participantId = "ONI15122";
     private $programId = "ONI15122";
     private $psid = "coenweb";
+
+    public function __construct(){
+        $dotenv = Dotenv::createImmutable(__DIR__);
+        $dotenv->safeLoad();
+        $this->baseUrl = $_ENV['BASE_URL'];
+        $this->clientUserIdDev = $_ENV['CLIENT_USER_ID_DEV'];
+        $this->clientUserIdProd = $_ENV['CLINET_USER_ID_PROD'];
+        $this->clientUserSecreteDev = $_ENV['CLIENT_USER_SECRET_DEV'];
+        $this->clientUserSceretProd = $_ENV['CLIENT_USER_SECRET_PROD'];
+        $this->participantId = $_ENV['PARTICIPANT_ID'];
+        $this->programId = $_ENV['PROGRAM_ID'];
+        $this->psid = $_ENV['PSID'];
+
+    }
+    
 
     public function getBaseUrl(){
         return $this->baseUrl;

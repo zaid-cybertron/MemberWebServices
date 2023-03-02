@@ -71,7 +71,7 @@ class TransactionHistory
         
         return $response;
     }
-    public function getRewardsHistroy(){
+    public function getRewardsHistory(){
         $response = json_decode($this->response->getBody()->getContents());
         $allTransactions = [];
         

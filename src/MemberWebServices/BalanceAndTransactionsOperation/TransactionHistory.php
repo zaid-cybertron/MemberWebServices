@@ -71,5 +71,32 @@ class TransactionHistory
         
         return $response;
     }
+    public function getRewardsHistroy(){
+        $response = json_decode($this->response->getBody()->getContents());
+        $allTransactions = [];
+        
+        if (isset($response->errors) && $response->errors[0]->errorCode == 1061){
+            return $allTransactions;
+        }
+
+        if (!isset($response->errors))
+        {
+            foreach($response->transactions as $transaction)
+            {
+                $trans = [
+                    "transactionDateTime" => $transaction->transactionDateTime,
+                    "retailerName"  => $transaction->retailerName,
+                    "transactionType" => $transaction->transactionType,
+                    "transactionAmount" => $transaction->transactionAmount,
+                    "siteName" => $transaction->siteName,
+                    "rewards" => $transaction->rewards,
+                ];
+                array_push($allTransactions,$trans);
+            }
+            return $allTransactions;
+        }
+        
+        return $response;
+    }
 }
 ?>

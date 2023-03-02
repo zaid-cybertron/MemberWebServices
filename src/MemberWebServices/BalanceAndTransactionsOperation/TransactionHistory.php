@@ -55,7 +55,7 @@ class TransactionHistory
             {
                 $activity = [
                     "transactionDate" => $transaction->transactionDateTime,
-                    "storeName" => $transaction->storeName,
+                    "storeName" => $transaction->retailerName,
                     "transactionType" => $transaction->transactionType,
                 ];
                 if ($transaction->transactionType == "Issuance" && $transaction->rewards->offers->rewardType == "POINTS"){
@@ -89,6 +89,7 @@ class TransactionHistory
                     "transactionType" => $transaction->transactionType,
                     "transactionAmount" => $transaction->transactionAmount,
                     "siteName" => $transaction->siteName,
+                    "retailerName" => $transaction->retailerName,
                     "rewards" => $transaction->rewards,
                 ];
                 array_push($allTransactions,$trans);

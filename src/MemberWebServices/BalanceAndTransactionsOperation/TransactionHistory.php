@@ -33,16 +33,16 @@ class TransactionHistory
             $this->URLPARAMS = "member-connect.excentus.com/fuelrewards/public/rest/v2/" . $this->programUdk . "/members/" . $this->memberAccountNumber . "/txnhistory"; 
 
         $this->callApiObj = new CallApi($this->REQUESTTYPE,$this->URLPARAMS,$this->headers,$this->options,$this->body);
-        $this->response = $this->callApiObj->requestApi();
+        $this->response = $this->callApiObj->requestApi()->getBody()->getContents();
         
     }
     public function getResponse(){
-        return json_decode($this->response->getBody()->getContents());
+        return json_decode($this->response);
     }
 
 
     public function getRecentActivity(){
-        $response = json_decode($this->response->getBody()->getContents());
+        $response = $this->getResponse();
         $recentActivities = [];
         
         if (isset($response->errors) && $response->errors[0]->errorCode == 1061){
@@ -72,7 +72,7 @@ class TransactionHistory
         return $response;
     }
     public function getRewardsHistory(){
-        $response = json_decode($this->response->getBody()->getContents());
+        $response = $this->getResponse();
         $allTransactions = [];
         
         if (isset($response->errors) && $response->errors[0]->errorCode == 1061){

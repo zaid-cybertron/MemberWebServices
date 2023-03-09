@@ -17,7 +17,7 @@ class Config{
     private $psid;
 
     public function __construct(){
-        $dotenv = Dotenv::createImmutable(__DIR__);
+        $dotenv = Dotenv::createImmutable($_SERVER['DOCUMENT_ROOT']."/../");
         $dotenv->safeLoad();
         $appEnv = $_ENV['APP_ENV'];
         $this->baseUrl = $appEnv == 'local' ? $_ENV['STAGE_URL'] : $_ENV['BASE_URL'];

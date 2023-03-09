@@ -79,7 +79,7 @@ class Config{
 
     public function getUserSecretCredentialsProd(){
         if (!empty($this->clientUserSceretProd)){
-            return $this->clientUserSecretProd;
+            return $this->clientUserSceretProd;
         }
     }
 

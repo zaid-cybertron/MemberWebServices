@@ -19,7 +19,7 @@ class Config{
     public function __construct(){
         $dotenv = Dotenv::createImmutable(__DIR__);
         $dotenv->safeLoad();
-        $appEnv = $_ENV('APP_ENV');
+        $appEnv = $_ENV['APP_ENV'];
         $this->baseUrl = $appEnv == 'local' ? $_ENV['STAGE_URL'] : $_ENV['BASE_URL'];
         $this->clientUserIdDev = $_ENV['CLIENT_USER_ID_DEV'];
         $this->clientUserIdProd = $_ENV['CLINET_USER_ID_PROD'];

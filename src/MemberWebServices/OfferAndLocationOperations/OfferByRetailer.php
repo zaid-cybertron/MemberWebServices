@@ -1,10 +1,10 @@
 <?php 
 
-namespace MemberWebServices\OfferByRetailer;
+namespace MemberWebServices\OfferAndLocationOperations;
 use MemberWebServices\Config;
 use MemberWebServices\CallApi;
 
-class Cards
+class OfferByRetailer
 {
     private $callApiObj;
     private $body = [];
@@ -17,17 +17,17 @@ class Cards
     private $programUdk;
     private $retailerId;
 
-    public function __construct($memberAccountNumber,$memberAccessToken)
+    public function __construct($access_token)
     {
         $this->headers = [
             "content-type" => $this->CONTENTTYPE,
-            "memberAccessToken" => $memberAccessToken,
+            "access_token" => $access_token,
         ];
         $config = new Config();
         $this->programUdk = $config->getProgramId();
         $this->retailerId =  $config->getParticipantId();
         
-        $this->URLPARAMS = "member-connect.excentus.com/fuelrewards/public/rest/v2/" . $this->programUdk . "/members/" . $memberAccountNumber . "/cards"; 
+        $this->URLPARAMS = "member-connect.excentus.com/fuelrewards/public/rest/v2/" . $this->programUdk . "/retailer/offers?retailerUdk=" . $this->retailerId; 
 
         $this->callApiObj = new CallApi($this->REQUESTTYPE,$this->URLPARAMS,$this->headers,$this->options,$this->body);
         $this->response = $this->callApiObj->requestApi();
@@ -35,16 +35,5 @@ class Cards
     public function getResponse(){
         return json_decode($this->response->getBody()->getContents());
     }
-    public function getCards(){
-        
-        if (!isset($this->response->errors)){
-            $cardsData = json_decode($this->response->getBody()->getContents());
-            $cards = [];
-            foreach($cardsData->retailerCards as $card){
-                array_push($cards,$card);
-            }
-            return $cards;
-        }
-        return $this->response;        
-    }
+
 }

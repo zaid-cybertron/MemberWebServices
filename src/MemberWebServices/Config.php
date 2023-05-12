@@ -2,7 +2,7 @@
 
 namespace MemberWebServices;
 use Dotenv\Dotenv;
-
+use App\Models\Configuration;
 
 class Config{
     
@@ -17,17 +17,18 @@ class Config{
     private $psid;
 
     public function __construct(){
+        $configuration = Configuration::findOrFail(1);
         $dotenv = Dotenv::createImmutable($_SERVER['DOCUMENT_ROOT']."/../");
         $dotenv->safeLoad();
-        $appEnv = $_ENV['APP_ENV'];
-        $this->baseUrl = $appEnv == 'local' ? $_ENV['STAGE_URL'] : $_ENV['BASE_URL'];
-        $this->clientUserIdDev = $_ENV['CLIENT_USER_ID_DEV'];
-        $this->clientUserIdProd = $_ENV['CLINET_USER_ID_PROD'];
-        $this->clientUserSecreteDev = $_ENV['CLIENT_USER_SECRET_DEV'];
-        $this->clientUserSceretProd = $_ENV['CLIENT_USER_SECRET_PROD'];
-        $this->participantId = $_ENV['PARTICIPANT_ID'];
-        $this->programId = $_ENV['PROGRAM_ID'];
-        $this->psid = $_ENV['PSID'];
+        $appEnv = $configuration->app_mode;
+        $this->baseUrl = $appEnv == 0 ? $configuration->stage_url : $configuration->prod_url;
+        $this->clientUserIdDev = $configuration->user_id_dev;
+        $this->clientUserIdProd = $configuration->user_id_prod;
+        $this->clientUserSecreteDev = $configuration->user_secret_dev;
+        $this->clientUserSceretProd = $configuration->user_secret_prod;
+        $this->participantId = $configuration->participant_id;
+        $this->programId = $configuration->program_id;
+        $this->psid = $configuration->psid;
 
     }
     

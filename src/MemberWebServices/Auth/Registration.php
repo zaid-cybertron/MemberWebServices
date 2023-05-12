@@ -17,7 +17,7 @@ class Registration{
     private $headers = [];
     private $programUdk;
     
-    public function __construct($apiAccessToken,$firstName, $lastName, $brithDate, $email, $primaryPhone, $zipCode, $password, $tcAction){
+    public function __construct($apiAccessToken,$firstName, $lastName, $email, $primaryPhone, $zipCode, $password, $tcAction, $birthDate = null){
 
         $this->headers = [
             "access_token" => $apiAccessToken,
@@ -44,7 +44,7 @@ class Registration{
             "secondaryPhoneType" => "",
             "mobilePhone" => "",
             "homePhone" => "",
-            "birthDate" => $brithDate,
+            "birthDate" => ($birthDate) != null ? $birthDate : "",
             "gender" => "",
             "tcAction" => $tcAction,
             "marcomOptIn" => "true",

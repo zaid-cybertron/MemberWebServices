@@ -46,10 +46,10 @@ class Conversion
         if (isset($this->response->errors))
         {
 
-            return $this->response->errors;
+            return json_decode($this->response->errors);
         }
         
-        return $this->response->getBody()->getContents(); 
+        return json_decode($this->response->getBody()->getContents()); 
     }
 
 

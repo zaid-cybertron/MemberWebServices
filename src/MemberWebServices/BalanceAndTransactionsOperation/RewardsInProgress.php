@@ -33,38 +33,41 @@ class RewardsInProgress
             $this->URLPARAMS = "member-connect.excentus.com/fuelrewards/public/rest/v2/" . $this->programUdk . "/members/" . $this->memberAccountNumber . "/rewardsInProgress"; 
 
         $this->callApiObj = new CallApi($this->REQUESTTYPE,$this->URLPARAMS,$this->headers,$this->options,$this->body);
-        $this->response = $this->callApiObj->requestApi();
+        $this->response = $this->callApiObj->requestApi()->getBody()->getContents();
         
     }
     public function getResponse(){
-        return json_decode($this->response->getBody()->getContents());
+        return json_decode($this->response);
     }
 
 
     public function getUpcomingOffers(){
-        $response = json_decode($this->response->getBody()->getContents());
+        $response = $this->getResponse();
         $upcomingOffers = [];
     
-        if (!isset($response->errors))
-        {
-            foreach($response->offerRewardDetails as $offerDetails)
-            {
-                $offer = [];
-                if ($offerDetails->rewardType == "POINTS" || $offerDetails->rewardType == "CPG"){
-                    array_push($upcomingOffers, [
-                        "currentBalance" => $offerDetails->curPurchaseBalance,
-                        "requiredBalance" => $offerDetails->offerRequirement,
-                        "pendingBalance" => $offerDetails->offerRequirement - $offerDetails->curPurchaseBalance,
-                        "offerId" => $offerDetails->offerId,
-                        "offerDescription" => $offerDetails->offerDescription,
-                    ]);
+        if ($response !== null) {
+            if (isset($response->errors)) {
+                // Handle errors
+                // ...
+            } else {
+                foreach ($response->offerRewardDetails as $offerDetails) {
+                    if ($offerDetails->rewardType == "POINTS" || $offerDetails->rewardType == "CPG" || $offerDetails->rewardType == "PERCNT_OFF") {
+                        $offer = [
+                            "currentBalance" => $offerDetails->curPurchaseBal,
+                            "requiredBalance" => $offerDetails->offerRequirement,
+                            "pendingBalance" => $offerDetails->offerRequirement - $offerDetails->curPurchaseBal,
+                            "offerId" => $offerDetails->offerId,
+                            "offerDescription" => $offerDetails->offerDescription,
+                            "longDescription" => $offerDetails->longDescription,
+                        ];
+
+                        $upcomingOffers[] = $offer;
+                    }
                 }
-                
-                array_push($upcomingOffers,[$offer]);
+
+                return $upcomingOffers;
             }
-            return $upcomingOffers;
         }
-        
         return $response;
     }
 }

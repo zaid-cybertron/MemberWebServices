@@ -41,37 +41,53 @@ class TransactionHistory
     }
 
 
-    public function getRecentActivity(){
+    public function getRewardHistory(){
         $response = $this->getResponse();
         $recentActivities = [];
-        
-        if (isset($response->errors) && $response->errors[0]->errorCode == 1061){
-            return $recentActivities;
-        }
 
-        if (!isset($response->errors))
-        {
-            foreach($response->transactions as $transaction)
-            {
-                $activity = [
-                    "transactionDate" => $transaction->transactionDateTime,
-                    "storeName" => $transaction->retailerName,
-                    "transactionType" => $transaction->transactionType,
-                ];
-                if ($transaction->transactionType == "Issuance" && $transaction->rewards->offers->rewardType == "POINTS"){
-                    array_push($activity, ["points" => $transaction->rewards->offers->rewardAmount]);
+        if (isset($response->errors)) {
+            return $recentActivities;
+        } else {
+            $recentActivities = [];
+            foreach ($response->transactions as $transaction) {
+                if ($transaction->transactionType == "Issuance" && !empty($transaction->rewards)) {
+                    foreach ($transaction->rewards as $reward) {
+                        if ($reward->issuanceType == "POINTS") {
+                            $transactionDate = date("Y-m-d", strtotime($transaction->transactionDateTime));
+                            $activity = [
+                                "transactionDate" => $transactionDate,
+                                "storeName" => $transaction->siteName,
+                                "transactionType" => $transaction->transactionType,
+                                "earned" => $reward->earned
+                            ];
+                            $recentActivities[] = $activity;
+                        }
+                    }
                 }
-                else if($transaction->transactionType == "Redemption" && $transaction->rewards->offers->rewardType == "POINTS"){
-                    array_push($activity, ["points" => $transaction->rewards->offers->rewardAmount]);
+                else if ($transaction->transactionType == "Redemption" && !empty($transaction->rewards)) {
+                    foreach ($transaction->rewards as $reward) {
+                        if ($reward->redemptionType == "POINTS") {
+                            $transactionDate = date("Y-m-d", strtotime($transaction->transactionDateTime));
+                            $activity = [
+                                "transactionDate" => $transactionDate,
+                                "storeName" => $transaction->siteName,
+                                "transactionType" => $transaction->transactionType,
+                                "redeemed" => $reward->redeemed
+                            ];
+                            $recentActivities[] = $activity;
+                        }
+                    }
                 }
-                array_push($recentActivities,[$activity]);
             }
+        
             return $recentActivities;
         }
+        
+        
         
         return $response;
     }
-    public function getRewardsHistory(){
+    public function getRecentActivity(){
         $response = $this->getResponse();
         $allTransactions = [];
         
@@ -84,13 +100,13 @@ class TransactionHistory
             foreach($response->transactions as $transaction)
             {
                 $trans = [
-                    "transactionDateTime" => $transaction->transactionDateTime,
+                    "transactionDate" => date("Y-m-d", strtotime($transaction->transactionDateTime)),
                     "retailerName"  => $transaction->retailerName,
                     "transactionType" => $transaction->transactionType,
                     "transactionAmount" => $transaction->transactionAmount,
                     "siteName" => $transaction->siteName,
-                    "retailerName" => $transaction->retailerName,
                     "rewards" => $transaction->rewards,
+                    "cardNumber" => $transaction->cardNumber
                 ];
                 array_push($allTransactions,$trans);
             }
